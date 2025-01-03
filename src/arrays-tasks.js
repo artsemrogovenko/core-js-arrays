@@ -137,7 +137,7 @@ function getAverage(arr) {
     return 0;
   }
   const result = arr.reduce((value, acc) => acc + value, 0) / arr.length;
-  if (parseFloat(result) != parseInt(result)) {
+  if (parseFloat(result) !== parseInt(result, 10)) {
     return Number(parseFloat(result).toFixed(2));
   }
   return result;
@@ -349,12 +349,13 @@ function calculateBalance(arr) {
 function createChunks(arr, chunkSize) {
   const result = [];
   let chunk = [];
-  arr.filter((value, index) => {
+  arr.filter(function create(value, index) {
     chunk.push(value);
-    if (chunk.length === chunkSize || index == arr.length - 1) {
+    if (chunk.length === chunkSize || index === arr.length - 1) {
       result.push(chunk);
       chunk = [];
     }
+    return 1;
   });
   return result;
 }
@@ -397,8 +398,9 @@ function generateOdds(len) {
  */
 function getElementByIndices(arr, indices) {
   let result = arr;
-  indices.filter((index) => {
+  indices.filter(function setElement(index) {
     result = result[index];
+    return 1;
   });
   return result;
 }
@@ -462,10 +464,11 @@ function getIdentityMatrix(n) {
  */
 function getIndicesOfOddNumbers(numbers) {
   const result = [];
-  numbers.filter((value, index) => {
+  numbers.filter(function isOdd(value, index) {
     if (value % 2 !== 0) {
       result.push(index);
     }
+    return 1;
   });
   return result;
 }
@@ -505,7 +508,7 @@ function getMaxItems(arr, n) {
     return arr;
   }
   const sorted = arr.sort((a, b) => a - b);
-  const result = Array.from({ length: n }, (value) => (value = sorted.pop()));
+  const result = Array.from({ length: n }, () => sorted.pop());
   return result;
 }
 
@@ -537,10 +540,9 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => longest is [7, 40, 80] => 3
  */
 function findLongestIncreasingSubsequence(nums) {
-  const count = 0;
   const result = [];
   let sub = [nums[0]];
-  nums.filter((element, index) => {
+  nums.filter(function grouping(element, index) {
     if (index > 0) {
       if (sub[sub.length - 1] < element) {
         sub.push(element);
@@ -549,6 +551,7 @@ function findLongestIncreasingSubsequence(nums) {
         sub = [element];
       }
     }
+    return 1;
   });
   result.push(sub);
   return Math.max(...result.map((arr) => arr.length));
@@ -644,7 +647,7 @@ function swapHeadAndTail(arr) {
     return arr.reverse();
   }
   const middle = Math.floor(arr.length / 2);
-  if (arr.length % 2 == 0) {
+  if (arr.length % 2 === 0) {
     return arr.slice(arr.length - middle).concat(arr.slice(0, middle));
   }
   return arr.slice(middle + 1).concat([arr[middle], ...arr.slice(0, middle)]);
